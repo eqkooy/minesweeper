@@ -1,0 +1,24 @@
+
+#minefield {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: calc(600px + 3 * 2 * 20px);
+}
+
+.tile {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    border: outset 3px black;
+    background: lightgrey;
+}
+
+.mine {
+    background-color: red;
+}
+
+.number {
+    background-color: white;
+}

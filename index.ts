@@ -1,24 +1,24 @@
 import { MineField } from './MineField';
-import { TileType } from './Tile';
+import { MineFieldConsoleRenderer } from './MineFieldConsoleRenderer';
+import './styles.css';
+
+function mainConsole() {
+    let mineField = new MineField();
+
+    new MineFieldConsoleRenderer().render(mineField);
+}
+
+let tileElementString = `<div class="tile"></div>`;
+let blackFlagCharacter = '&#x2691';
 
 function main() {
     let mineField = new MineField();
-    for(let i = 0; i < mineField.tiles.length; i++) {
-        let lineString = '';
 
-        for(let j = 0; j < mineField.tiles[0].length; j++) {
-            let tile = mineField.tiles[i][j];
+    let minefieldElement = document.getElementById('minefield');
 
-            if (tile.type == TileType.Empty) {
-                lineString += '_';
-            } else if (tile.type == TileType.Number) {
-                lineString += `${tile.neighbouringMines}`;
-            } else if (tile.type == TileType.Mine) {
-                lineString += 'X';
-            }
-        }
-        console.log(lineString);
-    }
+    mineField.tiles.forEach(row => row.forEach(tile => {
+        minefieldElement.innerHTML += tileElementString;
+    }));
 }
 
 main();
