@@ -22,7 +22,7 @@ class MineFieldComponent {
         for(let i = 0; i < this.mineField.tiles.length; i++) {
             let row = [];
             for(let j = 0; j < this.mineField.tiles[0].length; j++) {
-                let tileElement = this.createTileElement(this.mineField.tiles[i][j]);
+                let tileElement = this.createTileElement(this.mineField.tiles[i][j], i, j);
                 row.push(tileElement);         
                 minefieldElement.appendChild(tileElement);
             }
@@ -30,7 +30,7 @@ class MineFieldComponent {
         }
     }
 
-    createTileElement(tile: Tile) {
+    createTileElement(tile: Tile, i, j) {
         let tileElement = document.createElement('div');
         tileElement.className = 'tile';
 
@@ -41,14 +41,12 @@ class MineFieldComponent {
             }
 
             if (tile.type == TileType.Empty) {
-                tileElement.className += ' empty';
-                this.revealAdjacentEmptyTiles();
+                this.revealEmpty(tileElement);
+                this.revealAdjacentTiles(i, j);
             } else if (tile.type == TileType.Number) {
-                tileElement.className += ' number';
-                tileElement.innerHTML = `${tile.neighbouringMines}`;
+                this.revealNumber(tileElement, tile.neighbouringMines);
             } else if (tile.type == TileType.Mine) {
-                tileElement.className += ' mine';
-                tileElement.innerHTML = bombCharacter;
+                this.revealMine(tileElement);
                 this.gameOver();
             }
         };
@@ -56,8 +54,31 @@ class MineFieldComponent {
         return tileElement;
     }
 
-    revealAdjacentEmptyTiles() {
-        // TODO
+    revealEmpty(tileElement) {
+        tileElement.className += ' empty';
+    }
+
+    revealMine(tileElement) {
+        tileElement.className += ' mine';
+        tileElement.innerHTML = bombCharacter;
+    }
+
+    revealNumber(tileElement, neighbouringMines) {
+        tileElement.className += ' number';
+        tileElement.innerHTML = `${neighbouringMines}`;
+    }
+
+    revealAdjacentTiles(i, j) {
+        this.mineField.forEachNeighbouringTilesIndices(i, j, (k, l) => {
+            let tile = this.mineField.tiles[k][l];
+            let tileElement = this.tileElements[k][l];
+            if (tile.type == TileType.Empty && tileElement.className == 'tile') {
+                this.revealEmpty(this.tileElements[k][l]);
+                this.revealAdjacentTiles(k, l);
+            } else if (tile.type == TileType.Number) {
+                this.revealNumber(tileElement, tile.neighbouringMines);
+            }
+        });
     }
     
     gameOver() {
@@ -68,13 +89,12 @@ class MineFieldComponent {
                 let tile = this.mineField.tiles[i][j];
 
                 if (tile.type == TileType.Empty) {
-                    tileElement.className += ' empty';
+                    this.revealEmpty(tileElement);
                 } else if (tile.type == TileType.Number) {
                     tileElement.className += ' number';
                     tileElement.innerHTML = `${tile.neighbouringMines}`;
                 } else if (tile.type == TileType.Mine) {
-                    tileElement.className += ' mine';
-                    tileElement.innerHTML = bombCharacter;
+                    this.revealMine(tileElement);
                 }
             }
         }

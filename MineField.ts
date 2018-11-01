@@ -69,6 +69,16 @@ export class MineField {
         }
     }
 
+    forEachNeighbouringTilesIndices(i, j, callback) {
+        for(let p = (i > 0 ? -1 : 0); p < (i < this.tiles.length - 1 ? 2 : 1); p++) {
+            for(let q = (j > 0 ? -1 : 0); q < (j < this.tiles[0].length -1 ? 2 : 1); q++) {
+                if(!(p == 0 && q == 0)) {
+                    callback(i + p, j + q);
+                }
+            }
+        }
+    }
+
     static getRandomInteger(max) {
         return Math.floor((Math.random() * max));
     }
