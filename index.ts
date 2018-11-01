@@ -8,7 +8,7 @@ function mainConsole() {
     new MineFieldConsoleRenderer().render(mineField);
 }
 
-let blackFlagCharacter = '&#x2691';
+let blackFlagCharacter = "⚑"; // '&#x2691';
 let bombCharacter = '&#x1F4A3';
 
 class MineFieldComponent {
@@ -35,8 +35,8 @@ class MineFieldComponent {
         tileElement.className = 'tile';
 
         tileElement.onclick = event => {
-            if (event.ctrlKey) {
-                tileElement.innerHTML = blackFlagCharacter;
+            if (event.ctrlKey && tileElement.className == 'tile') {
+                tileElement.innerHTML = (tileElement.innerHTML != blackFlagCharacter) ? blackFlagCharacter : '';
                 return;
             }
 
@@ -91,8 +91,7 @@ class MineFieldComponent {
                 if (tile.type == TileType.Empty) {
                     this.revealEmpty(tileElement);
                 } else if (tile.type == TileType.Number) {
-                    tileElement.className += ' number';
-                    tileElement.innerHTML = `${tile.neighbouringMines}`;
+                    this.revealNumber(tileElement, tile.neighbouringMines);
                 } else if (tile.type == TileType.Mine) {
                     this.revealMine(tileElement);
                 }
