@@ -1,9 +1,11 @@
 import { Tile, TileType } from './Tile';
+import { StopWatch } from './StopWatch';
 
 export class MineField {
     public tiles : Tile[][];
     private rows : number = 20;
     private columns : number = 20;
+    readonly mines : number = 60;
 
     constructor() {
         this.tiles = new Array<Array<Tile>>();
@@ -20,9 +22,7 @@ export class MineField {
     }
 
     generateTiles() {
-        let mines = 60;
-
-        this.populateMines(mines);
+        this.populateMines(this.mines);
         this.computeRemainingTiles();
     }
 
@@ -47,15 +47,11 @@ export class MineField {
                 if (currentTile.type != TileType.Mine) {
                     // Look at neighbours and sum count of mines
                     let neighbouringMines = 0;
-                    for(let p = (i > 0 ? -1 : 0); p < (i < this.tiles.length - 1 ? 2 : 1); p++) {
-                        for(let q = (j > 0 ? -1 : 0); q < (j < this.tiles[0].length -1 ? 2 : 1); q++) {
-                            if(!(p == 0 && q == 0)) {
-                                if (this.tiles[i + p][j + q].type == TileType.Mine) {
-                                    neighbouringMines++;
-                                }
-                            }
+                    this.forEachNeighbouringTilesIndices(i, j, (k, l) => {
+                        if (this.tiles[k][l].type == TileType.Mine) {
+                            neighbouringMines++;
                         }
-                    }
+                    });
 
                     // Conclude for tile
                     if (neighbouringMines == 0) {

@@ -7,12 +7,12 @@ export class StopWatch {
     start() {
         this.olderDate = new Date();
 
-        this.intervalId = setInterval(() => {
-            this.updateTime();
-        }, 500);
+        // this.intervalId = setInterval(() => {
+        //     this.updateTime();
+        // }, 500);
     }
 
     updateTime() {
-        let time = new Date() + this.olderDate;
+        // TODO
     }
 }
