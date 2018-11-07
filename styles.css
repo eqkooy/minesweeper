@@ -1,9 +1,17 @@
+body {
+    text-align: center;
+}
+
+header {
+    font-size: 3em;
+}
 
 #minefield {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     width: calc(600px + 3 * 2 * 20px);
+    margin: 0 auto;
 }
 
 .tile {

@@ -6,6 +6,7 @@
   "scripts": {
     "build": "webpack -p",
     "start": "webpack-dev-server -d --content-base ./public",
+    "deploy": "npm run build && gh-pages -d public",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -29,5 +30,8 @@
     "webpack": "^4.23.1",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.10"
+  },
+  "devDependencies": {
+    "gh-pages": "^2.0.1"
   }
 }

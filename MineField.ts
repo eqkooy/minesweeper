@@ -1,5 +1,4 @@
 import { Tile, TileType } from './Tile';
-import { StopWatch } from './StopWatch';
 
 export class MineField {
     public tiles : Tile[][];
@@ -27,7 +26,7 @@ export class MineField {
     }
 
     populateMines(mines) {
-        for(let i = 0; i < mines - 1; i++) {
+        for(let i = 0; i < mines; i++) {
             let rowIndex;
             let columnIndex;
 
