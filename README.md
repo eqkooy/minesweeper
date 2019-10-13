@@ -1,6 +1,6 @@
 Minesweeper
 
-Basic javascript minesweeper implementation
+Basic javascript minesweeper implementation [Demo](https://eqkooy.github.io/minesweeper/)
 
 Goals
 
